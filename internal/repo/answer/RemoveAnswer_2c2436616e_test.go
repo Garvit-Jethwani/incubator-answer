@@ -19,39 +19,36 @@ package answer
 
 import (
 	"context"
+	"errors"
 	"strings"
 	"testing"
 
 	"github.com/apache/incubator-answer/internal/base/data"
 	"github.com/apache/incubator-answer/internal/entity"
-	"github.com/segmentfault/pacman/errors"
 	"xorm.io/xorm"
 )
 
-// Mock DB struct for testing
 type MockDB struct {
 }
 
-// Mock function for Update method
 func (m *MockDB) Update(bean interface{}, condiBeans ...interface{}) (int64, error) {
 	answer := bean.(*entity.Answer)
 
 	if answer.Status == entity.AnswerStatusDeleted {
-		return 0, errors.InternalServer("Answer already deleted")
+		return 0, errors.New("Answer already deleted")
 	}
 
 	if strings.TrimSpace(answer.ID) == "" {
-		return 0, errors.InternalServer("Invalid answerID")
+		return 0, errors.New("Invalid answerID")
 	}
 
 	if answer.ID == "database_down" {
-		return 0, errors.InternalServer("Database is down")
+		return 0, errors.New("Database is down")
 	}
 
 	return 1, nil
 }
 
-// Mock function for Context method
 func (m *MockDB) Context(ctx context.Context) *xorm.Session {
 	return &xorm.Session{}
 }
