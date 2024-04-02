@@ -132,11 +132,8 @@ import (
 	"testing"
 
 	"github.com/apache/incubator-answer/internal/base/constant"
-	"github.com/apache/incubator-answer/internal/base/data"
 	"github.com/apache/incubator-answer/internal/base/reason"
 	"github.com/apache/incubator-answer/internal/entity"
-	"github.com/apache/incubator-answer/internal/service/unique"
-	"github.com/apache/incubator-answer/pkg/uid"
 	"github.com/segmentfault/pacman/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -252,7 +249,7 @@ func TestAddAnswer(t *testing.T) {
 			}
 
 			ar := &answerRepo{
-				data:         data,
+				data:         nil, // TODO
 				uniqueIDRepo: uniqueIDRepo,
 			}
 
